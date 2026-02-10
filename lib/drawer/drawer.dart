@@ -54,6 +54,14 @@ class AppDrawer extends StatelessWidget {
               context.go('/imagenes'); // navegación con go_router
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.video_library),
+            title: const Text('Video Assets'),
+            onTap: () {
+              Navigator.pop(context); // cerrar drawer
+              context.go('/video_assets'); // navegación con go_router
+            },
+          ),
         ],
       ),
     );
