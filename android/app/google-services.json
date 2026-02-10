@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313020968115",
+    "project_id": "ejercicio-examen-repaso",
+    "storage_bucket": "ejercicio-examen-repaso.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313020968115:android:5dfe71a97452d0f77914c6",
+        "android_client_info": {
+          "package_name": "com.example.pmdm_ejercicio_examen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH6WIoqcG2vAkwzCPiajM-p8BllyFEJo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
