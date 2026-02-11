@@ -1,18 +1,20 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageCameraPage extends StatefulWidget {
-  const ImageCameraPage({super.key});
+class ImageGalleryPage extends StatefulWidget {
+  const ImageGalleryPage({super.key});
 
   @override
-  State<ImageCameraPage> createState() => _ImageCameraPageState();
+  State<ImageGalleryPage> createState() => _ImageGalleryPageState();
 }
 
-class _ImageCameraPageState extends State<ImageCameraPage> {
+class _ImageGalleryPageState extends State<ImageGalleryPage> {
   String? _imagePath;
+  String? _imageName;
   int? _imageSize;
   int? _imageWidth;
   int? _imageHeight;
@@ -22,15 +24,23 @@ class _ImageCameraPageState extends State<ImageCameraPage> {
 
     // obtener imagen de la galería
     XFile? xFile = await picker.pickImage(
-      source: ImageSource.camera,
-      maxHeight: 1024,
-      maxWidth: 1024,
-      imageQuality: 95,
-      preferredCameraDevice: .rear,
+      source: ImageSource.gallery,
+      maxHeight: 720,
+      maxWidth: 720,
+      imageQuality: 90,
     );
 
     // si no ha seleccionado nada => salir
     if (xFile == null) return;
+
+    // opcional - información del archivo seleccionado
+    debugPrint(
+      "'${xFile.path}'"
+          " '${xFile.name}'" // Captura de pantalla 2025-12-10 a las 14.29.44.png
+          " '${xFile.mimeType}'" // image/png (solo en web)
+          " ${await xFile.length()}" // 442728
+          " '${await xFile.lastModified()}'", // 2025-12-10 14:29:44.736
+    );
 
     // opcional - información de la imagen seleccionada
     final bytes = await xFile.readAsBytes();
@@ -40,12 +50,14 @@ class _ImageCameraPageState extends State<ImageCameraPage> {
     );
 
     _imagePath = xFile.path;
+    _imageName = xFile.name;
     _imageSize = await xFile.length();
     _imageWidth = image.width;
     _imageHeight = image.height;
 
     // mostrar la imagen
-    setState(() {});
+    setState(() {
+    });
   }
 
   @override
@@ -53,7 +65,7 @@ class _ImageCameraPageState extends State<ImageCameraPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Seleccionar imagen (Cámara)'),
+        title: Text('Imagen (Galería)'),
       ),
       body: ListView(
         children: [
@@ -62,9 +74,16 @@ class _ImageCameraPageState extends State<ImageCameraPage> {
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Column(
                 children: [
-                  Text('($_imageSize bytes)'),
-                  Text('${_imageWidth}x$_imageHeight => ${((250 * _imageWidth!) / _imageHeight!).toInt()}x250'),
-                  Image.file(
+                  Text('$_imageName ($_imageSize bytes)'),
+                  Text('${_imageWidth}x$_imageHeight => ${((250*_imageWidth!)/_imageHeight!).toInt()}x250'),
+                  kIsWeb
+                  // en web
+                      ? Image.network(
+                    _imagePath!,
+                    height: 250,
+                  )
+                  // en el resto
+                      : Image.file(
                     File(_imagePath!),
                     height: 250,
                   ),
