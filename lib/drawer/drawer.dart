@@ -1,18 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:pmdm_ejercicio_examen/utils/permissions.dart';
 
 import '../multimedia_videos/video_url/video_url_page.dart';
 import '../multimedia_videos/video_youtube/video_youtube_page.dart';
+import '../utils/snackbars.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
 
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
 
+class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
+    // Funcion para comprobar los permisos necesarios
+    Future<void> _revisarPermisos() async{
+      // comprobar un permiso determinado
+      final granted = await permissionHandle(
+          context,
+          Permission.locationWhenInUse,
+          'Ubicacion mientras la app se usa',
+          'La app necesita acceso a tu ubicacion. Por favor dale permiso para usar esta función.'
+      );
+      if(!mounted) return;
+
+      if(!granted) return;
+
+      // si se ha concedido permiso entonces continuamos
+      snackBarShow(context, 'Permiso concedido, puedes continuar');
+
+    }
     // Funcion para navegar a la página de video URL
     void _videoUrl() {
       Navigator.push(
@@ -94,6 +118,11 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.play_circle),
             title: const Text('Video YouTube'),
             onTap: _videoYoutube,
+          ),
+          ListTile(
+            leading: const Icon(Icons.security),
+            title: const Text('Comprobar Permisos'),
+            onTap: _revisarPermisos,
           ),
         ],
       ),
