@@ -55,11 +55,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   setState(() => _loading = true);
 
                   try {
+                    // Si consigue autenticar , accede a home.
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(
                       email: emailController.text.trim(),
                       password: passwordController.text.trim(),
                     );
                     context.go('/');
+
+                    // Sino salta excepciones.
                   } on FirebaseAuthException catch (e) {
                     String message = '';
                     if (e.code == 'weak-password') {

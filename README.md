@@ -1,16 +1,72 @@
-# pmdm_ejercicio_examen
 
-A new Flutter project.
 
-## Getting Started
+        -------------- NAVEGACIÓN + FIREBASE --------------------
+PASO 0;
+    -CONECTAR FIREBASE CON LA APP.
+        COMANDO;
+            - firebase login
+            - flutterfire configure
+        DEPENDENCIAS;
+            - go_router: ^13.2.0
+            - firebase_core: ^3.15.2
+            - firebase_auth: ^5.7.0
+PASO 1; 
+    - HACER LOGIN PAGE Y REGISTER. 
+PASO 2;
+    - HACER EL GO_ROUTER.
+PASO 3;
+    - IR AL MY_APP , Y AÑADIR EL MATERIARL.ROUTER.
+PASO 4;
+    - HACER EL DRAWER.
+PASO 5;
+    - AÑADIRLO AL HOME O, A LA CLASE QUE PIDA.
+PASO 6;
+    - HACER EL NAVIGATION BAR, SI LO PIDE.
+PASO 7;
+    - HACER EL FIRESTORE. 
+        - DEPENDENCIAS:
+            - cloud_firestore: ^5.6.12
+PASO 8;
+    - HACER EL ENTITIES.
+        -Document snapshot y mapa de datos.
+PASO 9;
+    - HACER EL EDIT_PAGE.
 
-This project is a starting point for a Flutter application.
+        ----------------------- MULTIMEDIA IMÁGENES -----------------------
 
-A few resources to get you started if this is your first Flutter project:
+    DEPENDENCIAS;
+        -  image_picker: ^1.2.1 -> Para seleccionar imágenes de galreia o camara
+        -  cached_network_image: ^3.4.1 # Para cached network
+        -  flutter_svg: ^2.2.3 # Para los SVG
+        -  vector_graphics: ^1.1.19  # SVG A VECTOR.
+        -  flutter_exif_rotation: ^0.5.2 # Para tener info extra.
+        -  native_exif : ^0.6.2 # Para tener info extra.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+        -   Añadir los assets al .yaml , ejemplo ;
+                -  assets:
+                     - assets/imagenes/
+                     - assets/imagenes/svg
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+        - Añadir al Manifest ;
+                <uses-permission android:name="android.permission.CAMERA"/>
+       
+        --------------------- MULTIMEDIA VIDEOS ---------------------------
+       DEPENDENCIAS:  
+        -   video_player: ^2.10.1 # Reproducir video assets
+        -   youtube_explode_dart: ^3.0.5 # Reproducir video de youtube
+        - Añadirlos al .yaml , ejemplo;
+            -assets:
+                assets/video/
+        - Añadirlo al Manifest; 
+            - <uses-permission android:name="android.permission.INTERNET"/>
+        
+
+        --------------------- PERMISOS -------------------------------
+        
+        COPIAR utils/permissions.dart
+
+        ---------------------- MAPAS ---------------------------
+        DEPENDENCIAS;  
+            -  map_launcher: ^4.4.2 # Para localización(mapas).
+        - Ir al proyecto de antonio en multimedia los dos 
+        ultimos commits.

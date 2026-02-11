@@ -42,7 +42,12 @@ dependencies:
   video_player: ^2.10.1 # Reproducir video assets
   youtube_explode_dart: ^3.0.5 # Reproducir video de youtube
   permission_handler: ^12.0.1 # Para solicitar permisos
-
+  cached_network_image: ^3.4.1 # Para cached network
+  flutter_svg: ^2.2.3 # Para los SVG
+  vector_graphics: ^1.1.19
+  flutter_exif_rotation: ^0.5.2 # Para tener info extra.
+  native_exif : ^0.6.2 # Para tener info extra.
+  map_launcher: ^4.4.2 # Para localización(mapas).
 
 dev_dependencies:
   flutter_test:
@@ -68,8 +73,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/
-    - assets/images/svg/
+    - assets/imagenes/
+    - assets/imagenes/svg/
     - assets/videos/
   # To add assets to your application, add an assets section, like this:
   # assets:

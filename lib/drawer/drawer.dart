@@ -18,7 +18,10 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
+
+    // Usuario autenticado.
     final user = FirebaseAuth.instance.currentUser;
+
 
     // Funcion para comprobar los permisos necesarios
     Future<void> _revisarPermisos() async{
@@ -30,7 +33,6 @@ class _AppDrawerState extends State<AppDrawer> {
           'La app necesita acceso a tu ubicacion. Por favor dale permiso para usar esta función.'
       );
       if(!mounted) return;
-
       if(!granted) return;
 
       // si se ha concedido permiso entonces continuamos
@@ -56,6 +58,8 @@ class _AppDrawerState extends State<AppDrawer> {
         ),
       );
     }
+
+    /// ---------------  DRAWER -----------------------
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -74,16 +78,6 @@ class _AppDrawerState extends State<AppDrawer> {
               context.go('/');
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Configuración'),
-            onTap: () {
-              // Redirigir a configuración (puedes añadir ruta)
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Página de configuración')),
-              );
-            },
-          ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.logout),
@@ -99,6 +93,38 @@ class _AppDrawerState extends State<AppDrawer> {
             onTap: () {
               Navigator.pop(context); // cerrar drawer
               context.go('/imagenes'); // navegación con go_router
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.image),
+            title: const Text('Cargar Imágenes'),
+            onTap: () {
+              Navigator.pop(context); // cerrar drawer
+              context.go('/cargarimagenes'); // navegación con go_router
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.image),
+            title: const Text('Imagen Galería'),
+            onTap: () {
+              Navigator.pop(context); // cerrar drawer
+              context.go('/imagenescongaleria'); // navegación con go_router
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.image),
+            title: const Text('Imágenes Cached'),
+            onTap: () {
+              Navigator.pop(context); // cerrar drawer
+              context.go('/imagenescached'); // navegación con go_router
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.image),
+            title: const Text('Imágenes SVG'),
+            onTap: () {
+              Navigator.pop(context); // cerrar drawer
+              context.go('/imagenessvg'); // navegación con go_router
             },
           ),
           ListTile(

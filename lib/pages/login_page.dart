@@ -30,7 +30,9 @@ class _LoginPageState extends State<LoginPage> {
                 controller: emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) {
+                  // Si valor es nulo o vacío salta mensaje de introduce tu email.
                   if (value == null || value.isEmpty) return 'Introduce tu email';
+                  // Si no respeta las expresiones "email invalido".
                   if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) return 'Email inválido';
                   return null;
                 },
@@ -45,21 +47,24 @@ class _LoginPageState extends State<LoginPage> {
                   return null;
                 },
               ),
+
               const SizedBox(height: 20),
               _loading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
                 onPressed: () async {
                   if (!_formKey.currentState!.validate()) return;
-
                   setState(() => _loading = true);
 
+                  // Si esta OK entonces va al home.
                   try {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: emailController.text.trim(),
                       password: passwordController.text.trim(),
                     );
                     context.go('/');
+
+                    // Sino salta excepción.
                   } on FirebaseAuthException catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(e.message ?? 'Error al iniciar sesión')),

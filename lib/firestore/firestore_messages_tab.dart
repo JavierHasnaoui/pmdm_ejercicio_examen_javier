@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../entities/message.dart';
+import 'edit_message_page.dart';
+
 class MessagesTab extends StatefulWidget {
   const MessagesTab({super.key});
 
@@ -12,6 +15,7 @@ class MessagesTab extends StatefulWidget {
 class _MessagesTabState extends State<MessagesTab> {
   final TextEditingController _controller = TextEditingController();
 
+  // ENVIAR MENSAJE AL FIRESTORE DATABASE A LA COLECCION DE MESSAGES.
   void _sendMessage() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null || _controller.text.trim().isEmpty) return;
@@ -21,7 +25,6 @@ class _MessagesTabState extends State<MessagesTab> {
       'text': _controller.text.trim(),
       'timestamp': FieldValue.serverTimestamp(),
     });
-
     _controller.clear();
   }
 
@@ -46,19 +49,38 @@ class _MessagesTabState extends State<MessagesTab> {
                 return const Center(child: Text('No hay mensajes'));
               }
 
+              // Esto es de la entities.
               final docs = snapshot.data!.docs;
 
               return ListView.builder(
                 reverse: true, // Para que los mensajes nuevos aparezcan abajo
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
-                  final data = docs[index].data() as Map<String, dynamic>;
-                  final isMine = data['userEmail'] == user?.email;
-
+                  // De FIRESTORE Muestra los datos en la APP.
+                  final message = Message.fromFirestore(docs[index]);
+                  // Que el usermail es lo mismo que email.
+                  final isMine = message.userEmail == user?.email;
+                  // Para mostrar el mensaje y el email.
                   return ListTile(
-                    title: Text(data['text'] ?? ''),
-                    subtitle: Text(data['userEmail'] ?? ''),
-                    trailing: isMine ? const Icon(Icons.check) : null,
+                    title: Text(message.text),
+                    subtitle: Text(message.userEmail),
+                    trailing: isMine
+                        ?
+                        // Esto es el boton de editar.
+                      IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => EditMessagePage(
+                              message: message,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                        : null,
                   );
                 },
               );
